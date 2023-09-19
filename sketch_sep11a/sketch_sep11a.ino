@@ -3,13 +3,13 @@
 // пины подключения светодиодов
 int led[] = { 2, 3, 4, 5};
 // пины для подключения кнопок
-int but[] = { A1, A2, A3, A4 };
+int but[] = { A0, A1, A2, A3 };
 // варианты комбинаций (можно добавить свои)
-char* kod[] = { "1213", "1231", "2213", "3231", "1312",
-             "1321", "3312", "2311", "1213", "1223"
+char* kod[] = { "1203", "1230", "0213", "3201", "1302",
+             "1321", "0312", "2301", "1203", "2103"
              };
 int del = 1000;
-int w = -1;
+int w = -1, aa = 0;
 byte level = 1;
 byte b1, b2, b3, b4;
 String KOD, OTV, A;
@@ -30,6 +30,7 @@ void setup() {
   for (byte i = 0; i <= num_led; i++) {
     pinMode(led[i], OUTPUT);
   }
+
   // настраиваем пины для кнопок
   for (byte i = 0; i <= num_but; i++) {
     pinMode(but[i], INPUT_PULLUP);
@@ -45,21 +46,25 @@ void loop() {
   while (w == -1) {
     int  x = random(0, num_cod - 1);
     KOD = {kod[x]};
-    b1 = 0; b2 = 0; b3 = 0; b4 = 0; 
+    b1 = 0; b2 = 0; b3 = 0; b4 = 0;
     w = 0;
   }
- 
+  delay(10);
+  digitalWrite(led[0], LOW);
+  delay(10);
   // поочередно включаем светодиоды согласно комбинации
   while (w <= len - 1) {
+    aa = 1;
     A = KOD[w];
     int a = A.toInt();
     digitalWrite(led[a], HIGH);
-    tone(buzzer, 4 * led[a]);
+    tone(buzzer, aa * led[a]);
     delay(10);
     noTone(buzzer);
     delay(del);
     digitalWrite(led[a], LOW);
     w++;
+    aa++;
   }
 
   // ждем нажатия всех кнопок
@@ -68,13 +73,12 @@ void loop() {
     boolean button2IsUp = digitalRead(but[1]);
     boolean button3IsUp = digitalRead(but[2]);
     boolean button4IsUp = digitalRead(but[3]);
- 
 
     if (b1 == 0 and button1WasUp and !button1IsUp) {
       delay(10);
       button1IsUp = digitalRead(but[0]);
       if (!button1IsUp) {
-        tone(buzzer, 4 * led[0]);
+        tone(buzzer, 1 * led[0]);
         delay(10);
         noTone(buzzer);
         OTV = OTV + "0";
@@ -89,11 +93,11 @@ void loop() {
       delay(10);
       button2IsUp = digitalRead(but[1]);
       if (!button2IsUp) {
-        tone(buzzer, 4 * led[1]);
+        tone(buzzer, 2 * led[1]);
         delay(10);
         noTone(buzzer);
         OTV = OTV + "1";
-        digitalWrite(led[1], LOW);
+        digitalWrite(led[1], HIGH);
         b2 = 1;
         w++;
       }
@@ -104,7 +108,7 @@ void loop() {
       delay(10);
       button3IsUp = digitalRead(but[2]);
       if (!button3IsUp) {
-        tone(buzzer, 4 * led[2]);
+        tone(buzzer, 3 * led[2]);
         delay(10);
         noTone(buzzer);
         OTV = OTV + "2";
