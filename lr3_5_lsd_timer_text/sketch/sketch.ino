@@ -54,7 +54,7 @@ void loop() {
     // Если флаг включен, то идёт отчёт timer for 0-59
     for(int i = digit_global; i < 60; i++){
       //  Пусть им будет номер текущей секунды, зацикленный на десятке
-      if (digit_global == 59) 
+      if (digit_global == 60) 
       {
         i = 0;
         minut_global++;
