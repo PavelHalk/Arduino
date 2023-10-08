@@ -54,15 +54,16 @@ void loop() {
     // Если флаг включен, то идёт отчёт timer for 0-59
     for(int i = digit_global; i < 60; i++){
       //  Пусть им будет номер текущей секунды, зацикленный на десятке
-      if (digit_global == 60) 
-      {
-        i = 0;
-        minut_global++;
-      } 
+
       // перевод 60 сек в 1 мин
       digit_global = i;
       timer(digit_global, minut_global); //считаем время на дислпей
 
+      if (digit_global == 59) 
+      {
+        i = -1;
+        minut_global++;
+      } 
       delay(1000);
       buttonOn0(); //отслеживание события на нажатие кнопки0
       buttonOn1(); //отслеживание события на нажатие кнопки1
@@ -97,7 +98,7 @@ void butok(){
 
        timer(000, 00);
        Serial.println("Секундомер выкл.");
-       switching1 = false;
+       switching = false;
      }
   }
 
