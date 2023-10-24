@@ -9,7 +9,7 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-        SerialPort sp = new SerialPort("COM6", 9600, Parity.None, 8, StopBits.One);
+        SerialPort sp = new SerialPort("COM5", 9600, Parity.None, 8, StopBits.One);
 
         delegate void SetTextDelegate(string value);
 
@@ -49,7 +49,7 @@ namespace WindowsFormsApp1
                     chart1.Series[0].Points.Add(Convert.ToSingle(sp.ReadLine()));
 
                 }
-                System.Threading.Thread.Sleep(200); // засыпаем на одну секунду 
+                System.Threading.Thread.Sleep(100); // засыпаем на одну секунду 
             }
         }
     }
